@@ -227,3 +227,11 @@ div[data-testid="stLinkButton"] > a {
 .metric-title { font-size: 12px; text-transform: uppercase; color: #475569; font-weight: 600; }
 .metric-value { font-size: 32px; font-weight: 700; color: #0f172a; margin-top: 4px; }
 .metric-unit { font-size: 12px; color: #64748b; font-weight: 400; }
+
+/* st.metric color overrides for dark/light theme inconsistencies */
+[data-testid="stMetricLabel"] {
+    color: #475569 !important;
+}
+[data-testid="stMetricValue"] {
+    color: #0f172a !important;
+}

@@ -6,14 +6,16 @@ import pydeck as pdk
 import requests
 import requests
 from predictor import predict_traffic
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 import urllib.parse
 
 # ==========================================
 # CONFIG & INITIALIZATION
 # ==========================================
 def get_target_datetime(jam_str, target_day):
-    now = datetime.now()
+    # Menggunakan timezone WIB (UTC+7) agar sinkron dengan waktu lokal pengguna di Indonesia
+    wib_tz = timezone(timedelta(hours=7))
+    now = datetime.now(wib_tz)
     hour = int(jam_str.split(":")[0])
     
     days_map = {"Senin": 0, "Selasa": 1, "Rabu": 2, "Kamis": 3, "Jumat": 4, "Sabtu": 5, "Minggu": 6}
@@ -30,7 +32,7 @@ def get_target_datetime(jam_str, target_day):
         dt_start += timedelta(days=7)
         
     dt_end = dt_start + timedelta(hours=1)
-    return dt_start, dt_end
+    return dt_start.replace(tzinfo=None), dt_end.replace(tzinfo=None)
 
 def generate_gcal_url(jam_str, description, target_day):
     dt_start, dt_end = get_target_datetime(jam_str, target_day)
